@@ -242,6 +242,9 @@ require('lazy').setup({
     opts = {
       -- See Configuration section for options
     },
+    keys = {
+      { '<leader>lc', '<cmd>CopilotChat<cr>', desc = 'Open Copilot Chat' },
+    },
     -- See Commands section for default commands if you want to lazy load on them
   },
   {
@@ -263,55 +266,6 @@ require('lazy').setup({
       'LazyGitFilter',
       'LazyGitFilterCurrentFile',
     },
-    {
-      'romgrk/barbar.nvim',
-      dependencies = {
-        'lewis6991/gitsigns.nvim', -- OPTIONAL: for git status
-        'nvim-tree/nvim-web-devicons', -- OPTIONAL: for file icons
-      },
-      init = function()
-        vim.g.barbar_auto_setup = false
-      end,
-      opts = {
-        -- lazy.nvim will automatically call setup for you. put your options here, anything missing will use the default:
-        -- animation = true,
-        -- insert_at_start = true,
-        sidebar_filetypes = {
-          noremap = true,
-          silent = true,
-          -- Use the default values: {event = 'BufWinLeave', text = '', align = 'left'}
-          NvimTree = true,
-          -- Or, specify the text used for the offset:
-          undotree = {
-            text = 'undotree',
-            align = 'center', -- *optionally* specify an alignment (either 'left', 'center', or 'right')
-          },
-          -- Or, specify the event which the sidebar executes when leaving:
-          ['neo-tree'] = { event = 'BufWipeout', 'Tabnew' },
-          -- Or, specify all three
-          Outline = { event = 'BufWinLeave', text = 'symbols-outline', align = 'right' },
-        }, -- …etc.
-      },
-      keys = {
-        { '<A-,>', '<Cmd>BufferPrevious<CR>', desc = 'Go to previous buffer' },
-        { '<A-.>', '<Cmd>BufferNext<CR>', desc = 'Go to next buffer' },
-        { '<A-<>', '<Cmd>BufferMovePrevious<CR>', desc = 'Move buffer to previous position' },
-        { '<A->>', '<Cmd>BufferMoveNext<CR>', desc = 'Move buffer to next position' },
-        { '<A-1>', '<Cmd>BufferGoto 1<CR>', desc = 'Go to buffer 1' },
-        { '<A-2>', '<Cmd>BufferGoto 2<CR>', desc = 'Go to buffer 2' },
-        { '<A-3>', '<Cmd>BufferGoto 3<CR>', desc = 'Go to buffer 3' },
-        { '<A-4>', '<Cmd>BufferGoto 4<CR>', desc = 'Go to buffer 4' },
-        { '<A-5>', '<Cmd>BufferGoto 5<CR>', desc = 'Go to buffer 5' },
-        { '<A-6>', '<Cmd>BufferGoto 6<CR>', desc = 'Go to buffer 6' },
-        { '<A-7>', '<Cmd>BufferGoto 7<CR>', desc = 'Go to buffer 7' },
-        { '<A-8>', '<Cmd>BufferGoto 8<CR>', desc = 'Go to buffer 8' },
-        { '<A-9>', '<Cmd>BufferGoto 9<CR>', desc = 'Go to buffer 9' },
-        { '<A-0>', '<Cmd>BufferLast<CR>', desc = 'Go to last buffer' },
-        { '<A-c>', '<Cmd>BufferClose<CR>', desc = 'Close buffer' },
-      },
-
-      version = '^1.0.0', -- optional: only update when a new 1.x version is released
-    },
     -- optional for floating window border decoration
     dependencies = {
       'nvim-lua/plenary.nvim',
@@ -319,8 +273,58 @@ require('lazy').setup({
     -- setting the keybinding for LazyGit with 'keys' is recommended in
     -- order to load the plugin when the command is run for the first time
     keys = {
+      { '<leader>l', group = 'LazyGit Tool', desc = 'LazyGit' },
       { '<leader>lg', '<cmd>LazyGit<cr>', desc = 'LazyGit' },
     },
+  },
+  {
+    'romgrk/barbar.nvim',
+    dependencies = {
+      'lewis6991/gitsigns.nvim', -- OPTIONAL: for git status
+      'nvim-tree/nvim-web-devicons', -- OPTIONAL: for file icons
+    },
+    init = function()
+      vim.g.barbar_auto_setup = false
+    end,
+    opts = {
+      -- lazy.nvim will automatically call setup for you. put your options here, anything missing will use the default:
+      -- animation = true,
+      -- insert_at_start = true,
+      sidebar_filetypes = {
+        noremap = true,
+        silent = true,
+        -- Use the default values: {event = 'BufWinLeave', text = '', align = 'left'}
+        NvimTree = true,
+        -- Or, specify the text used for the offset:
+        undotree = {
+          text = 'undotree',
+          align = 'center', -- *optionally* specify an alignment (either 'left', 'center', or 'right')
+        },
+        -- Or, specify the event which the sidebar executes when leaving:
+        ['neo-tree'] = { event = 'BufWipeout', 'Tabnew', 'open_tabnew' },
+        -- Or, specify all three
+        Outline = { event = 'BufWinLeave', text = 'symbols-outline', align = 'right' },
+      }, -- …etc.
+    },
+    keys = {
+      { '<A-,>', '<Cmd>BufferPrevious<CR>', desc = 'Go to previous buffer' },
+      { '<A-.>', '<Cmd>BufferNext<CR>', desc = 'Go to next buffer' },
+      { '<A-<>', '<Cmd>BufferMovePrevious<CR>', desc = 'Move buffer to previous position' },
+      { '<A->>', '<Cmd>BufferMoveNext<CR>', desc = 'Move buffer to next position' },
+      { '<A-1>', '<Cmd>BufferGoto 1<CR>', desc = 'Go to buffer 1' },
+      { '<A-2>', '<Cmd>BufferGoto 2<CR>', desc = 'Go to buffer 2' },
+      { '<A-3>', '<Cmd>BufferGoto 3<CR>', desc = 'Go to buffer 3' },
+      { '<A-4>', '<Cmd>BufferGoto 4<CR>', desc = 'Go to buffer 4' },
+      { '<A-5>', '<Cmd>BufferGoto 5<CR>', desc = 'Go to buffer 5' },
+      { '<A-6>', '<Cmd>BufferGoto 6<CR>', desc = 'Go to buffer 6' },
+      { '<A-7>', '<Cmd>BufferGoto 7<CR>', desc = 'Go to buffer 7' },
+      { '<A-8>', '<Cmd>BufferGoto 8<CR>', desc = 'Go to buffer 8' },
+      { '<A-9>', '<Cmd>BufferGoto 9<CR>', desc = 'Go to buffer 9' },
+      { '<A-0>', '<Cmd>BufferLast<CR>', desc = 'Go to last buffer' },
+      { '<A-c>', '<Cmd>BufferClose<CR>', desc = 'Close buffer' },
+    },
+
+    version = '^1.0.0', -- optional: only update when a new 1.x version is released
   },
   -- NOTE: Plugins can also be added by using a table,
   -- with the first argument being the link and the following
@@ -414,6 +418,7 @@ require('lazy').setup({
         { '<leader>w', group = '[W]orkspace' },
         { '<leader>t', group = '[T]oggle' },
         { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
+        { '<leader>l', group = 'Tools' },
       },
     },
   },
