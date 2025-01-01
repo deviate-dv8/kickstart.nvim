@@ -231,6 +231,18 @@ require('lazy').setup({
   'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
   'github/copilot.vim',
   {
+    'CopilotC-Nvim/CopilotChat.nvim',
+    dependencies = {
+      { 'github/copilot.vim' }, -- or zbirenbaum/copilot.lua
+      { 'nvim-lua/plenary.nvim', branch = 'master' }, -- for curl, log and async functions
+    },
+    build = 'make tiktoken', -- Only on MacOS or Linux
+    opts = {
+      -- See Configuration section for options
+    },
+    -- See Commands section for default commands if you want to lazy load on them
+  },
+  {
     'catgoose/nvim-colorizer.lua',
     event = 'BufReadPre',
     opts = {
@@ -241,6 +253,7 @@ require('lazy').setup({
   },
   {
     'roobert/tailwindcss-colorizer-cmp.nvim',
+    -- optionally, override the default options:
     config = function()
       require('tailwindcss-colorizer-cmp').setup {
         color_square_width = 2,
@@ -733,7 +746,8 @@ require('lazy').setup({
         -- python = { "isort", "black" },
         --
         -- You can use 'stop_after_first' to run the first available formatter from the list
-        -- javascript = { "prettierd", "prettier", stop_after_first = true },
+        javascript = { 'prettierd', 'prettier', stop_after_first = true },
+        typescript = { 'prettierd', 'prettier', stop_after_first = true },
       },
     },
   },
@@ -985,6 +999,8 @@ require('lazy').setup({
     },
   },
 })
-
+require('cmp').setup {
+  formatting = { format = require('tailwindcss-colorizer-cmp').formatter },
+}
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
