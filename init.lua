@@ -242,9 +242,6 @@ require('lazy').setup({
     opts = {
       -- See Configuration section for options
     },
-    keys = {
-      { '<leader>lc', '<cmd>CopilotChat<cr>', desc = 'Open Copilot Chat' },
-    },
     -- See Commands section for default commands if you want to lazy load on them
   },
   {
@@ -273,9 +270,17 @@ require('lazy').setup({
     -- setting the keybinding for LazyGit with 'keys' is recommended in
     -- order to load the plugin when the command is run for the first time
     keys = {
-      { '<leader>l', group = 'LazyGit Tool', desc = 'LazyGit' },
       { '<leader>lg', '<cmd>LazyGit<cr>', desc = 'LazyGit' },
     },
+  },
+  {
+    'roobert/tailwindcss-colorizer-cmp.nvim',
+    -- optionally, override the default options:
+    config = function()
+      require('tailwindcss-colorizer-cmp').setup {
+        color_square_width = 2,
+      }
+    end,
   },
   {
     'romgrk/barbar.nvim',
@@ -283,28 +288,20 @@ require('lazy').setup({
       'lewis6991/gitsigns.nvim', -- OPTIONAL: for git status
       'nvim-tree/nvim-web-devicons', -- OPTIONAL: for file icons
     },
-    event = 'VeryLazy',
+    event = 'VimEnter',
     init = function()
       vim.g.barbar_auto_setup = false
     end,
+    -- event = 'VimEnter',
     opts = {
+      noremap = true,
+      silent = true,
       -- lazy.nvim will automatically call setup for you. put your options here, anything missing will use the default:
       -- animation = true,
       -- insert_at_start = true,
       sidebar_filetypes = {
-        noremap = true,
-        silent = true,
-        -- Use the default values: {event = 'BufWinLeave', text = '', align = 'left'}
         NvimTree = true,
-        -- Or, specify the text used for the offset:
-        undotree = {
-          text = 'undotree',
-          align = 'center', -- *optionally* specify an alignment (either 'left', 'center', or 'right')
-        },
-        -- Or, specify the event which the sidebar executes when leaving:
-        ['neo-tree'] = { event = 'BufWipeout', 'Tabnew', 'open_tabnew', 'TermOpen' },
-        -- Or, specify all three
-        Outline = { event = 'BufWinLeave', text = 'symbols-outline', align = 'right' },
+        ['neo-tree'] = { event = 'BufWipeout', 'Tabnew', 'open_tabnew' },
       }, -- …etc.
     },
     keys = {
@@ -330,13 +327,13 @@ require('lazy').setup({
     'CRAG666/code_runner.nvim',
     config = true,
     keys = {
-      { '<leader>rr', ':RunCode<CR>', { noremap = true, silent = false, mode = 'n' } },
-      { '<leader>rf', ':RunFile<CR>', { noremap = true, silent = false, mode = 'n' } },
-      { '<leader>rft', ':RunFile tab<CR>', { noremap = true, silent = false, mode = 'n' } },
-      { '<leader>rp', ':RunProject<CR>', { noremap = true, silent = false, mode = 'n' } },
-      { '<leader>rc', ':RunClose<CR>', { noremap = true, silent = false, mode = 'n' } },
-      { '<leader>crf', ':CRFiletype<CR>', { noremap = true, silent = false, mode = 'n' } },
-      { '<leader>crp', ':CRProjects<CR>', { noremap = true, silent = false, mode = 'n' } },
+      { '<leader>rr', ':RunCode<CR>', mode = 'n', noremap = true, silent = false, desc = 'Run Code' },
+      { '<leader>rf', ':RunFile<CR>', mode = 'n', noremap = true, silent = false, desc = 'Run File' },
+      { '<leader>rft', ':RunFile tab<CR>', mode = 'n', noremap = true, silent = false, desc = 'Run File in Tab' },
+      { '<leader>rp', ':RunProject<CR>', mode = 'n', noremap = true, silent = false, desc = 'Run Project' },
+      { '<leader>rc', ':RunClose<CR>', mode = 'n', noremap = true, silent = false, desc = 'Run Close' },
+      { '<leader>crf', ':CRFiletype<CR>', mode = 'n', noremap = true, silent = false, desc = 'Change Filetype Runner' },
+      { '<leader>crp', ':CRProjects<CR>', mode = 'n', noremap = true, silent = false, desc = 'Change Project Runner' },
     },
   },
   -- NOTE: Plugins can also be added by using a table,
@@ -431,7 +428,6 @@ require('lazy').setup({
         { '<leader>w', group = '[W]orkspace' },
         { '<leader>t', group = '[T]oggle' },
         { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
-        { '<leader>l', group = 'Tools' },
       },
     },
   },
@@ -959,6 +955,9 @@ require('lazy').setup({
           { name = 'nvim_lsp' },
           { name = 'luasnip' },
           { name = 'path' },
+        },
+        formatting = {
+          format = require('tailwindcss-colorizer-cmp').formatter,
         },
       }
     end,
