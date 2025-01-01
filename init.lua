@@ -301,7 +301,7 @@ require('lazy').setup({
           align = 'center', -- *optionally* specify an alignment (either 'left', 'center', or 'right')
         },
         -- Or, specify the event which the sidebar executes when leaving:
-        ['neo-tree'] = { event = 'BufWipeout', 'Tabnew', 'open_tabnew' },
+        ['neo-tree'] = { event = 'BufWipeout', 'Tabnew', 'open_tabnew', 'TermOpen' },
         -- Or, specify all three
         Outline = { event = 'BufWinLeave', text = 'symbols-outline', align = 'right' },
       }, -- …etc.
@@ -325,6 +325,19 @@ require('lazy').setup({
     },
 
     version = '^1.0.0', -- optional: only update when a new 1.x version is released
+  },
+  {
+    'CRAG666/code_runner.nvim',
+    config = true,
+    keys = {
+      { '<leader>rr', ':RunCode<CR>', { noremap = true, silent = false, mode = 'n' } },
+      { '<leader>rf', ':RunFile<CR>', { noremap = true, silent = false, mode = 'n' } },
+      { '<leader>rft', ':RunFile tab<CR>', { noremap = true, silent = false, mode = 'n' } },
+      { '<leader>rp', ':RunProject<CR>', { noremap = true, silent = false, mode = 'n' } },
+      { '<leader>rc', ':RunClose<CR>', { noremap = true, silent = false, mode = 'n' } },
+      { '<leader>crf', ':CRFiletype<CR>', { noremap = true, silent = false, mode = 'n' } },
+      { '<leader>crp', ':CRProjects<CR>', { noremap = true, silent = false, mode = 'n' } },
+    },
   },
   -- NOTE: Plugins can also be added by using a table,
   -- with the first argument being the link and the following
