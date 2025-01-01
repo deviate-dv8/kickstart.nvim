@@ -252,15 +252,6 @@ require('lazy').setup({
     },
   },
   {
-    'roobert/tailwindcss-colorizer-cmp.nvim',
-    -- optionally, override the default options:
-    config = function()
-      require('tailwindcss-colorizer-cmp').setup {
-        color_square_width = 2,
-      }
-    end,
-  },
-  {
     'kdheepak/lazygit.nvim',
     lazy = true,
     cmd = {
@@ -817,6 +808,12 @@ require('lazy').setup({
       --  into multiple repos for maintenance purposes.
       'hrsh7th/cmp-nvim-lsp',
       'hrsh7th/cmp-path',
+      {
+        'mlaursen/vim-react-snippets',
+        config = function()
+          require('vim-react-snippets').lazy_load()
+        end,
+      },
     },
     config = function()
       -- See `:help cmp`
