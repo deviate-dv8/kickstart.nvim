@@ -189,6 +189,8 @@ vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right win
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
+-- My custom keymaps
+
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 
@@ -275,6 +277,8 @@ require('lazy').setup({
         -- animation = true,
         -- insert_at_start = true,
         sidebar_filetypes = {
+          noremap = true,
+          silent = true,
           -- Use the default values: {event = 'BufWinLeave', text = '', align = 'left'}
           NvimTree = true,
           -- Or, specify the text used for the offset:
@@ -283,11 +287,29 @@ require('lazy').setup({
             align = 'center', -- *optionally* specify an alignment (either 'left', 'center', or 'right')
           },
           -- Or, specify the event which the sidebar executes when leaving:
-          ['neo-tree'] = { event = 'BufWipeout' },
+          ['neo-tree'] = { event = 'BufWipeout', 'Tabnew' },
           -- Or, specify all three
           Outline = { event = 'BufWinLeave', text = 'symbols-outline', align = 'right' },
         }, -- …etc.
       },
+      keys = {
+        { '<A-,>', '<Cmd>BufferPrevious<CR>', desc = 'Go to previous buffer' },
+        { '<A-.>', '<Cmd>BufferNext<CR>', desc = 'Go to next buffer' },
+        { '<A-<>', '<Cmd>BufferMovePrevious<CR>', desc = 'Move buffer to previous position' },
+        { '<A->>', '<Cmd>BufferMoveNext<CR>', desc = 'Move buffer to next position' },
+        { '<A-1>', '<Cmd>BufferGoto 1<CR>', desc = 'Go to buffer 1' },
+        { '<A-2>', '<Cmd>BufferGoto 2<CR>', desc = 'Go to buffer 2' },
+        { '<A-3>', '<Cmd>BufferGoto 3<CR>', desc = 'Go to buffer 3' },
+        { '<A-4>', '<Cmd>BufferGoto 4<CR>', desc = 'Go to buffer 4' },
+        { '<A-5>', '<Cmd>BufferGoto 5<CR>', desc = 'Go to buffer 5' },
+        { '<A-6>', '<Cmd>BufferGoto 6<CR>', desc = 'Go to buffer 6' },
+        { '<A-7>', '<Cmd>BufferGoto 7<CR>', desc = 'Go to buffer 7' },
+        { '<A-8>', '<Cmd>BufferGoto 8<CR>', desc = 'Go to buffer 8' },
+        { '<A-9>', '<Cmd>BufferGoto 9<CR>', desc = 'Go to buffer 9' },
+        { '<A-0>', '<Cmd>BufferLast<CR>', desc = 'Go to last buffer' },
+        { '<A-c>', '<Cmd>BufferClose<CR>', desc = 'Close buffer' },
+      },
+
       version = '^1.0.0', -- optional: only update when a new 1.x version is released
     },
     -- optional for floating window border decoration
