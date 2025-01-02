@@ -102,8 +102,9 @@ vim.g.have_nerd_font = true
 vim.opt.number = true
 -- You can also add relative line numbers, to help with jumping.
 --  Experiment for yourself to see if you like it!
--- vim.opt.relativenumber = true
-
+vim.opt.relativenumber = true
+vim.opt.tabstop = 2
+vim.opt.shiftwidth = 2
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.opt.mouse = 'a'
 
@@ -244,7 +245,7 @@ require('lazy').setup({
     },
     -- See Commands section for default commands if you want to lazy load on them
     keys = {
-      { '<leader>lc', '<Cmd>GithubCopilot<CR>', desc = 'Open Copilot Chat' },
+      { '<leader>lc', '<Cmd>CopilotChat<CR>', desc = 'Open Copilot Chat' },
     },
   },
   {
@@ -331,6 +332,11 @@ require('lazy').setup({
   },
   {
     'CRAG666/code_runner.nvim',
+    opts = {
+      filetype = {
+        php = 'php',
+      },
+    },
     config = true,
     keys = {
       { '<leader>rr', ':RunCode<CR>', mode = 'n', noremap = true, silent = false, desc = 'Run Code' },
