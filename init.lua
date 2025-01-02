@@ -243,6 +243,9 @@ require('lazy').setup({
       -- See Configuration section for options
     },
     -- See Commands section for default commands if you want to lazy load on them
+    keys = {
+      { '<leader>lc', '<Cmd>GithubCopilot<CR>', desc = 'Open Copilot Chat' },
+    },
   },
   {
     'catgoose/nvim-colorizer.lua',
@@ -288,38 +291,41 @@ require('lazy').setup({
       'lewis6991/gitsigns.nvim', -- OPTIONAL: for git status
       'nvim-tree/nvim-web-devicons', -- OPTIONAL: for file icons
     },
-    event = 'VimEnter',
+    event = 'VeryLazy',
     init = function()
       vim.g.barbar_auto_setup = false
     end,
-    -- event = 'VimEnter',
     opts = {
-      noremap = true,
-      silent = true,
-      -- lazy.nvim will automatically call setup for you. put your options here, anything missing will use the default:
-      -- animation = true,
-      -- insert_at_start = true,
       sidebar_filetypes = {
+        -- Use the default values: {event = 'BufWinLeave', text = '', align = 'left'}
         NvimTree = true,
-        ['neo-tree'] = { event = 'BufWipeout', 'Tabnew', 'open_tabnew' },
-      }, -- …etc.
+        -- Or, specify the text used for the offset:
+        undotree = {
+          text = 'undotree',
+          align = 'center', -- *optionally* specify an alignment (either 'left', 'center', or 'right')
+        },
+        -- Or, specify the event which the sidebar executes when leaving:
+        ['neo-tree'] = { event = 'BufWipeout' },
+        -- Or, specify all three
+        Outline = { event = 'BufWinLeave', text = 'symbols-outline', align = 'right' },
+      },
     },
     keys = {
-      { '<A-,>', '<Cmd>BufferPrevious<CR>', desc = 'Go to previous buffer' },
-      { '<A-.>', '<Cmd>BufferNext<CR>', desc = 'Go to next buffer' },
-      { '<A-<>', '<Cmd>BufferMovePrevious<CR>', desc = 'Move buffer to previous position' },
-      { '<A->>', '<Cmd>BufferMoveNext<CR>', desc = 'Move buffer to next position' },
-      { '<A-1>', '<Cmd>BufferGoto 1<CR>', desc = 'Go to buffer 1' },
-      { '<A-2>', '<Cmd>BufferGoto 2<CR>', desc = 'Go to buffer 2' },
-      { '<A-3>', '<Cmd>BufferGoto 3<CR>', desc = 'Go to buffer 3' },
-      { '<A-4>', '<Cmd>BufferGoto 4<CR>', desc = 'Go to buffer 4' },
-      { '<A-5>', '<Cmd>BufferGoto 5<CR>', desc = 'Go to buffer 5' },
-      { '<A-6>', '<Cmd>BufferGoto 6<CR>', desc = 'Go to buffer 6' },
-      { '<A-7>', '<Cmd>BufferGoto 7<CR>', desc = 'Go to buffer 7' },
-      { '<A-8>', '<Cmd>BufferGoto 8<CR>', desc = 'Go to buffer 8' },
-      { '<A-9>', '<Cmd>BufferGoto 9<CR>', desc = 'Go to buffer 9' },
-      { '<A-0>', '<Cmd>BufferLast<CR>', desc = 'Go to last buffer' },
-      { '<A-c>', '<Cmd>BufferClose<CR>', desc = 'Close buffer' },
+      { '<A-,>', '<Cmd>BufferPrevious<CR>', desc = 'Go to previous buffer', noremap = true, silent = false },
+      { '<A-.>', '<Cmd>BufferNext<CR>', desc = 'Go to next buffer', noremap = true, silent = false },
+      { '<A-<>', '<Cmd>BufferMovePrevious<CR>', desc = 'Move buffer to previous position', noremap = true, silent = false },
+      { '<A->>', '<Cmd>BufferMoveNext<CR>', desc = 'Move buffer to next position', noremap = true, silent = false },
+      { '<A-1>', '<Cmd>BufferGoto 1<CR>', desc = 'Go to buffer 1', noremap = true, silent = false },
+      { '<A-2>', '<Cmd>BufferGoto 2<CR>', desc = 'Go to buffer 2', noremap = true, silent = false },
+      { '<A-3>', '<Cmd>BufferGoto 3<CR>', desc = 'Go to buffer 3', noremap = true, silent = false },
+      { '<A-4>', '<Cmd>BufferGoto 4<CR>', desc = 'Go to buffer 4', noremap = true, silent = false },
+      { '<A-5>', '<Cmd>BufferGoto 5<CR>', desc = 'Go to buffer 5', noremap = true, silent = false },
+      { '<A-6>', '<Cmd>BufferGoto 6<CR>', desc = 'Go to buffer 6', noremap = true, silent = false },
+      { '<A-7>', '<Cmd>BufferGoto 7<CR>', desc = 'Go to buffer 7', noremap = true, silent = false },
+      { '<A-8>', '<Cmd>BufferGoto 8<CR>', desc = 'Go to buffer 8', noremap = true, silent = false },
+      { '<A-9>', '<Cmd>BufferGoto 9<CR>', desc = 'Go to buffer 9', noremap = true, silent = false },
+      { '<A-0>', '<Cmd>BufferLast<CR>', desc = 'Go to last buffer', noremap = true, silent = false },
+      { '<A-c>', '<Cmd>BufferClose<CR>', desc = 'Close buffer', noremap = true, silent = false },
     },
     version = '^1.0.0', -- optional: only update when a new 1.x version is released
   },
@@ -335,6 +341,24 @@ require('lazy').setup({
       { '<leader>crf', ':CRFiletype<CR>', mode = 'n', noremap = true, silent = false, desc = 'Change Filetype Runner' },
       { '<leader>crp', ':CRProjects<CR>', mode = 'n', noremap = true, silent = false, desc = 'Change Project Runner' },
     },
+  },
+  {
+    'adalessa/laravel.nvim',
+    dependencies = {
+      'tpope/vim-dotenv',
+      'nvim-telescope/telescope.nvim',
+      'MunifTanjim/nui.nvim',
+      'kevinhwang91/promise-async',
+    },
+    cmd = { 'Laravel' },
+    keys = {
+      { '<leader>la', ':Laravel artisan<cr>' },
+      { '<leader>lr', ':Laravel routes<cr>' },
+      { '<leader>lm', ':Laravel related<cr>' },
+    },
+    event = { 'VeryLazy' },
+    opts = {},
+    config = true,
   },
   -- NOTE: Plugins can also be added by using a table,
   -- with the first argument being the link and the following
@@ -775,6 +799,10 @@ require('lazy').setup({
         'prettier',
         'tailwindcss-language-server',
         'typescript-language-server',
+        'blade-formatter',
+        'php-cs-fixer',
+        'phpcs',
+        'phpactor',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
