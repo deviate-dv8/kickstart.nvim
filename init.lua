@@ -203,6 +203,11 @@ function _G.set_terminal_keymaps()
   vim.keymap.set('t', '<C-l>', [[<Cmd>wincmd l<CR>]], opts)
   vim.keymap.set('t', '<C-w>', [[<C-\><C-n><C-w>]], opts)
 end
+vim.filetype.add {
+  pattern = {
+    ['.*%.blade%.php'] = 'blade',
+  },
+}
 
 -- if you only want these mappings for toggle term use term://*toggleterm#* instead
 vim.cmd 'autocmd! TermOpen term://* lua set_terminal_keymaps()'
@@ -423,6 +428,55 @@ require('lazy').setup({
       direction = 'horizontal', -- Default direction (can be overridden with keymaps)
       size = 20, -- Default size of terminal
     },
+  },
+
+  {
+    'rambhosale/cmp-bootstrap.nvim',
+    dependencies = { 'hrsh7th/nvim-cmp' },
+    event = 'InsertEnter',
+  },
+  {
+    'onsails/lspkind.nvim',
+    config = function()
+      require('lspkind').init {
+        -- enables text annotations
+        mode = 'symbol_text',
+        -- default symbol map
+        preset = 'codicons',
+        -- override preset symbols
+        symbol_map = {
+          Text = '',
+          Method = '',
+          Function = '',
+          Constructor = '',
+          Field = '',
+          Variable = '',
+          Class = '',
+          Interface = '',
+          Module = '',
+          Property = '',
+          Unit = '',
+          Value = '',
+          Enum = '',
+          Keyword = '',
+          Snippet = '',
+          Color = '',
+          File = '',
+          Reference = '',
+          Folder = '',
+          EnumMember = '',
+          Constant = '',
+          Struct = '',
+          Event = '',
+          Operator = '',
+          TypeParameter = '',
+          nvim_lsp = '[LSP]',
+          nvim_lua = '[Lua]',
+          buffer = '[BUF]',
+          cmp_bootstrap = '[﯄]',
+        },
+      }
+    end,
   },
   -- NOTE: Plugins can also be added by using a table,
   -- with the first argument being the link and the following
@@ -834,7 +888,9 @@ require('lazy').setup({
           },
         },
         tailwindcss = {},
-
+        emmet_ls = {
+          filetypes = { 'css', 'eruby', 'html', 'javascript', 'javascriptreact', 'less', 'sass', 'scss', 'svelte', 'pug', 'typescriptreact', 'vue', 'blade' },
+        },
         volar = {},
 
         lua_ls = {
@@ -875,7 +931,6 @@ require('lazy').setup({
         'prettier',
         'tailwindcss-language-server',
         'typescript-language-server',
-        'blade-formatter',
         'php-cs-fixer',
         'phpcs',
         'phpactor',
@@ -939,6 +994,7 @@ require('lazy').setup({
         javascript = { 'prettierd', 'prettier', stop_after_first = true },
         typescript = { 'prettierd', 'prettier', stop_after_first = true },
         typescriptreact = { 'prettierd', 'prettier', stop_after_first = true },
+        blade = { 'blade-formatter', stop_after_first = true },
       },
     },
   },
@@ -989,6 +1045,7 @@ require('lazy').setup({
       -- See `:help cmp`
       local cmp = require 'cmp'
       local luasnip = require 'luasnip'
+      local lspkind = require 'lspkind'
       luasnip.config.setup {}
 
       cmp.setup {
@@ -1060,6 +1117,7 @@ require('lazy').setup({
           { name = 'nvim_lsp' },
           { name = 'luasnip' },
           { name = 'path' },
+          { name = 'cmp_bootstrap' },
         },
         formatting = {
           format = require('tailwindcss-colorizer-cmp').formatter,
@@ -1132,7 +1190,22 @@ require('lazy').setup({
     main = 'nvim-treesitter.configs', -- Sets main module to use for opts
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
     opts = {
-      ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc', 'json', 'php', 'vue' },
+      ensure_installed = {
+        'bash',
+        'c',
+        'diff',
+        'html',
+        'lua',
+        'luadoc',
+        'markdown',
+        'markdown_inline',
+        'query',
+        'vim',
+        'vimdoc',
+        'json',
+        'php',
+        'vue',
+      },
       -- Autoinstall languages that are not installed
       auto_install = true,
       highlight = {
@@ -1144,7 +1217,20 @@ require('lazy').setup({
       },
       indent = { enable = true, disable = { 'ruby' } },
     },
-    -- There are additional nvim-treesitter modules that you can use to interact
+    config = function(_, opts)
+      require('nvim-treesitter.configs').setup(opts)
+
+      -- Add Blade parser
+      local parser_config = require('nvim-treesitter.parsers').get_parser_configs()
+      parser_config.blade = {
+        install_info = {
+          url = 'https://github.com/EmranMR/tree-sitter-blade',
+          files = { 'src/parser.c' },
+          branch = 'main',
+        },
+        filetype = 'blade',
+      }
+    end, -- There are additional nvim-treesitter modules that you can use to interact
     -- with nvim-treesitter. You should go explore a few and see what interests you:
     --
     --    - Incremental selection: Included, see `:help nvim-treesitter-incremental-selection-mod`
