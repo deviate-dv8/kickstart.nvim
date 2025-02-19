@@ -207,6 +207,9 @@ vim.filetype.add {
   pattern = {
     ['.*%.blade%.php'] = 'blade',
   },
+  extension = {
+    mdx = 'mdx',
+  },
 }
 
 -- if you only want these mappings for toggle term use term://*toggleterm#* instead
@@ -436,47 +439,9 @@ require('lazy').setup({
     event = 'InsertEnter',
   },
   {
-    'onsails/lspkind.nvim',
-    config = function()
-      require('lspkind').init {
-        -- enables text annotations
-        mode = 'symbol_text',
-        -- default symbol map
-        preset = 'codicons',
-        -- override preset symbols
-        symbol_map = {
-          Text = '',
-          Method = '',
-          Function = '',
-          Constructor = '',
-          Field = '',
-          Variable = '',
-          Class = '',
-          Interface = '',
-          Module = '',
-          Property = '',
-          Unit = '',
-          Value = '',
-          Enum = '',
-          Keyword = '',
-          Snippet = '',
-          Color = '',
-          File = '',
-          Reference = '',
-          Folder = '',
-          EnumMember = '',
-          Constant = '',
-          Struct = '',
-          Event = '',
-          Operator = '',
-          TypeParameter = '',
-          nvim_lsp = '[LSP]',
-          nvim_lua = '[Lua]',
-          buffer = '[BUF]',
-          cmp_bootstrap = '[﯄]',
-        },
-      }
-    end,
+    'davidmh/mdx.nvim',
+    config = true,
+    dependencies = { 'nvim-treesitter/nvim-treesitter' },
   },
   -- NOTE: Plugins can also be added by using a table,
   -- with the first argument being the link and the following
@@ -1045,7 +1010,6 @@ require('lazy').setup({
       -- See `:help cmp`
       local cmp = require 'cmp'
       local luasnip = require 'luasnip'
-      local lspkind = require 'lspkind'
       luasnip.config.setup {}
 
       cmp.setup {
@@ -1217,20 +1181,20 @@ require('lazy').setup({
       },
       indent = { enable = true, disable = { 'ruby' } },
     },
-    config = function(_, opts)
-      require('nvim-treesitter.configs').setup(opts)
-
-      -- Add Blade parser
-      local parser_config = require('nvim-treesitter.parsers').get_parser_configs()
-      parser_config.blade = {
-        install_info = {
-          url = 'https://github.com/EmranMR/tree-sitter-blade',
-          files = { 'src/parser.c' },
-          branch = 'main',
-        },
-        filetype = 'blade',
-      }
-    end, -- There are additional nvim-treesitter modules that you can use to interact
+    -- config = function(_, opts)
+    --   require('nvim-treesitter.configs').setup(opts)
+    --   -- Add Blade parser
+    --   local parser_config = require('nvim-treesitter.parsers').get_parser_configs()
+    --   parser_config.blade = {
+    --     install_info = {
+    --       url = 'https://github.com/EmranMR/tree-sitter-blade',
+    --       files = { 'src/parser.c' },
+    --       branch = 'main',
+    --     },
+    --     filetype = 'blade',
+    --   }
+    -- end,
+    -- There are additional nvim-treesitter modules that you can use to interact
     -- with nvim-treesitter. You should go explore a few and see what interests you:
     --
     --    - Incremental selection: Included, see `:help nvim-treesitter-incremental-selection-mod`
