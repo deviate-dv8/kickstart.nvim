@@ -967,7 +967,7 @@ require('lazy').setup({
         'typescript-language-server',
         'php-cs-fixer',
         'phpcs',
-        'phpactor',
+        'intelephense',
         'volar',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
