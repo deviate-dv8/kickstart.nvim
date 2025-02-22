@@ -209,6 +209,7 @@ vim.filetype.add {
   },
   extension = {
     mdx = 'mdx',
+    edge = 'html',
   },
 }
 
@@ -442,6 +443,14 @@ require('lazy').setup({
     'davidmh/mdx.nvim',
     config = true,
     dependencies = { 'nvim-treesitter/nvim-treesitter' },
+  },
+  {
+    'ray-x/lsp_signature.nvim',
+    event = 'VeryLazy',
+    opts = {},
+    config = function(_, opts)
+      require('lsp_signature').setup(opts)
+    end,
   },
   -- NOTE: Plugins can also be added by using a table,
   -- with the first argument being the link and the following
@@ -896,7 +905,22 @@ require('lazy').setup({
         },
         tailwindcss = {},
         emmet_ls = {
-          filetypes = { 'css', 'eruby', 'html', 'javascript', 'javascriptreact', 'less', 'sass', 'scss', 'svelte', 'pug', 'typescriptreact', 'vue', 'blade' },
+          filetypes = {
+            'css',
+            'eruby',
+            'html',
+            'javascript',
+            'javascriptreact',
+            'less',
+            'sass',
+            'scss',
+            'svelte',
+            'pug',
+            'typescriptreact',
+            'vue',
+            'blade',
+            'edge',
+          },
         },
         volar = {},
 
@@ -1005,6 +1029,7 @@ require('lazy').setup({
         typescript = { 'prettierd', 'prettier', stop_after_first = true },
         typescriptreact = { 'prettierd', 'prettier', stop_after_first = true },
         blade = { 'blade-formatter', stop_after_first = true },
+        edge = { 'prettierd', 'prettier', stop_after_first = true },
       },
     },
   },

@@ -1,0 +1,2 @@
+((text) @edge
+  (#match? @edge "{[{%#]"))
