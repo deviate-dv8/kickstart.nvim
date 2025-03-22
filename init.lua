@@ -433,7 +433,6 @@ require('lazy').setup({
       size = 20, -- Default size of terminal
     },
   },
-
   {
     'rambhosale/cmp-bootstrap.nvim',
     dependencies = { 'hrsh7th/nvim-cmp' },
@@ -452,6 +451,23 @@ require('lazy').setup({
       require('lsp_signature').setup(opts)
     end,
   },
+  {
+    'adelarsq/image_preview.nvim',
+    event = 'VeryLazy',
+    config = function()
+      require('image_preview').setup()
+    end,
+  },
+  {
+    'tpope/vim-rails',
+    lazy = false, -- Load it on startup
+  },
+  -- {
+  --   'Toprun123/PicVim',
+  --   config = function()
+  --     require('picvim').setup()
+  --   end,
+  -- },
   -- NOTE: Plugins can also be added by using a table,
   -- with the first argument being the link and the following
   -- keys can be used to configure plugin behavior/loading/etc.
