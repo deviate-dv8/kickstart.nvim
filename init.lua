@@ -433,11 +433,11 @@ require('lazy').setup({
       size = 20, -- Default size of terminal
     },
   },
-  {
-    'rambhosale/cmp-bootstrap.nvim',
-    dependencies = { 'hrsh7th/nvim-cmp' },
-    event = 'InsertEnter',
-  },
+  -- {
+  --   'rambhosale/cmp-bootstrap.nvim',
+  --   dependencies = { 'hrsh7th/nvim-cmp' },
+  --   event = 'InsertEnter',
+  -- },
   {
     'davidmh/mdx.nvim',
     config = true,
@@ -1169,7 +1169,7 @@ require('lazy').setup({
           { name = 'nvim_lsp' },
           { name = 'luasnip' },
           { name = 'path' },
-          { name = 'cmp_bootstrap' },
+          -- { name = 'cmp_bootstrap' },
         },
         formatting = {
           format = require('tailwindcss-colorizer-cmp').formatter,
