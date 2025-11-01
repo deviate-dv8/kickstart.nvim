@@ -91,7 +91,7 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
 -- Check if running on Termux
-local is_termux = os.getenv('TERMUX_VERSION') ~= nil or vim.fn.isdirectory('/data/data/com.termux') == 1
+local is_termux = os.getenv 'TERMUX_VERSION' ~= nil or vim.fn.isdirectory '/data/data/com.termux' == 1
 
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = true
@@ -385,24 +385,24 @@ require('lazy').setup({
       { '<leader>crp', ':CRProjects<CR>', mode = 'n', noremap = true, silent = false, desc = 'Change Project Runner' },
     },
   },
-  {
-    'adalessa/laravel.nvim',
-    dependencies = {
-      'tpope/vim-dotenv',
-      'nvim-telescope/telescope.nvim',
-      'MunifTanjim/nui.nvim',
-      'kevinhwang91/promise-async',
-    },
-    cmd = { 'Laravel' },
-    keys = {
-      { '<leader>la', ':Laravel artisan<cr>' },
-      { '<leader>lr', ':Laravel routes<cr>' },
-      { '<leader>lm', ':Laravel related<cr>' },
-    },
-    event = { 'VeryLazy' },
-    opts = {},
-    config = true,
-  },
+  -- {
+  --   'adalessa/laravel.nvim',
+  --   dependencies = {
+  --     'tpope/vim-dotenv',
+  --     'nvim-telescope/telescope.nvim',
+  --     'MunifTanjim/nui.nvim',
+  --     'kevinhwang91/promise-async',
+  --   },
+  --   cmd = { 'Laravel' },
+  --   keys = {
+  --     { '<leader>la', ':Laravel artisan<cr>' },
+  --     { '<leader>lr', ':Laravel routes<cr>' },
+  --     { '<leader>lm', ':Laravel related<cr>' },
+  --   },
+  --   event = { 'VeryLazy' },
+  --   opts = {},
+  --   config = true,
+  -- },
   {
     'folke/ts-comments.nvim',
     opts = {},
@@ -447,15 +447,10 @@ require('lazy').setup({
     },
   },
   -- {
-  --   'rambhosale/cmp-bootstrap.nvim',
-  --   dependencies = { 'hrsh7th/nvim-cmp' },
-  --   event = 'InsertEnter',
+  --   'davidmh/mdx.nvim',
+  --   config = true,
+  --   dependencies = { 'nvim-treesitter/nvim-treesitter' },
   -- },
-  {
-    'davidmh/mdx.nvim',
-    config = true,
-    dependencies = { 'nvim-treesitter/nvim-treesitter' },
-  },
   {
     'ray-x/lsp_signature.nvim',
     event = 'VeryLazy',
@@ -464,17 +459,17 @@ require('lazy').setup({
       require('lsp_signature').setup(opts)
     end,
   },
-  {
-    'adelarsq/image_preview.nvim',
-    event = 'VeryLazy',
-    config = function()
-      require('image_preview').setup()
-    end,
-  },
-  {
-    'tpope/vim-rails',
-    lazy = false, -- Load it on startup
-  },
+  -- {
+  --   'adelarsq/image_preview.nvim',
+  --   event = 'VeryLazy',
+  --   config = function()
+  --     require('image_preview').setup()
+  --   end,
+  -- },
+  -- {
+  --   'tpope/vim-rails',
+  --   lazy = false, -- Load it on startup
+  -- },
   -- {
   --   'Toprun123/PicVim',
   --   config = function()
