@@ -90,6 +90,9 @@ P.S. You can delete this when you're done too. It's your config now! :)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
+-- Check if running on Termux
+local is_termux = os.getenv('TERMUX_VERSION') ~= nil or vim.fn.isdirectory('/data/data/com.termux') == 1
+
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = true
 
@@ -115,9 +118,12 @@ vim.opt.showmode = false
 --  Schedule the setting after `UiEnter` because it can increase startup-time.
 --  Remove this option if you want your OS clipboard to remain independent.
 --  See `:help 'clipboard'`
-vim.schedule(function()
-  vim.opt.clipboard = 'unnamedplus'
-end)
+--  On Termux, clipboard may not work properly, so we disable it
+if not is_termux then
+  vim.schedule(function()
+    vim.opt.clipboard = 'unnamedplus'
+  end)
+end
 
 -- Enable break indent
 vim.opt.breakindent = true
@@ -263,7 +269,13 @@ require('lazy').setup({
       { 'github/copilot.vim' }, -- or zbirenbaum/copilot.lua
       { 'nvim-lua/plenary.nvim', branch = 'master' }, -- for curl, log and async functions
     },
-    build = 'make tiktoken', -- Only on MacOS or Linux
+    -- Skip build step on Termux as it requires compilation that may not work
+    build = (function()
+      if is_termux then
+        return nil
+      end
+      return 'make tiktoken'
+    end)(),
     opts = {
       -- See Configuration section for options
     },
@@ -597,7 +609,11 @@ require('lazy').setup({
 
         -- `cond` is a condition used to determine whether this plugin should be
         -- installed and loaded.
+        -- Disable on Termux as compilation may fail due to missing libraries or architecture issues
         cond = function()
+          if is_termux then
+            return false
+          end
           return vim.fn.executable 'make' == 1
         end,
       },
@@ -940,7 +956,7 @@ require('lazy').setup({
             'edge',
           },
         },
-        volar = {},
+        -- volar = {},
 
         lua_ls = {
           -- cmd = { ... },
@@ -975,7 +991,6 @@ require('lazy').setup({
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format Lua code
         'css-lsp',
-        'delve',
         'emmet-ls',
         'eslint-lsp',
         'hadolint',
@@ -983,10 +998,6 @@ require('lazy').setup({
         'prettier',
         'tailwindcss-language-server',
         'typescript-language-server',
-        'php-cs-fixer',
-        'phpcs',
-        'intelephense',
-        'volar',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -1061,9 +1072,9 @@ require('lazy').setup({
         'L3MON4D3/LuaSnip',
         build = (function()
           -- Build Step is needed for regex support in snippets.
-          -- This step is not supported in many windows environments.
-          -- Remove the below condition to re-enable on windows.
-          if vim.fn.has 'win32' == 1 or vim.fn.executable 'make' == 0 then
+          -- This step is not supported in many windows environments or Termux.
+          -- Remove the below condition to re-enable on windows or Termux.
+          if vim.fn.has 'win32' == 1 or is_termux or vim.fn.executable 'make' == 0 then
             return
           end
           return 'make install_jsregexp'
