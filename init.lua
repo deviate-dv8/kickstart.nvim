@@ -268,6 +268,215 @@ require('lazy').setup({
   -- options to `gitsigns.nvim`.
   --
   -- See `:help gitsigns` to understand what the configuration keys do
+  'github/copilot.vim',
+  {
+    'CopilotC-Nvim/CopilotChat.nvim',
+    dependencies = {
+      { 'github/copilot.vim' }, -- or zbirenbaum/copilot.lua
+      { 'nvim-lua/plenary.nvim', branch = 'master' }, -- for curl, log and async functions
+    },
+    -- Skip build step on Termux as it requires compilation that may not work
+    build = (function()
+      if is_termux then
+        return nil
+      end
+      return 'make tiktoken'
+    end)(),
+    opts = {
+      -- See Configuration section for options
+    },
+    -- See Commands section for default commands if you want to lazy load on them
+    keys = {
+      { '<leader>lc', '<Cmd>CopilotChat<CR>', desc = 'Open Copilot Chat' },
+    },
+  },
+  {
+    'catgoose/nvim-colorizer.lua',
+    event = 'BufReadPre',
+    opts = {
+      user_default_options = {
+        tailwind = true,
+      },
+    },
+  },
+  {
+    'kdheepak/lazygit.nvim',
+    lazy = true,
+    cmd = {
+      'LazyGit',
+      'LazyGitConfig',
+      'LazyGitCurrentFile',
+      'LazyGitFilter',
+      'LazyGitFilterCurrentFile',
+    },
+    -- optional for floating window border decoration
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+    },
+    -- setting the keybinding for LazyGit with 'keys' is recommended in
+    -- order to load the plugin when the command is run for the first time
+    keys = {
+
+      { '<leader>lg', '<cmd>LazyGit<cr>', desc = 'LazyGit' },
+    },
+  },
+  {
+    'roobert/tailwindcss-colorizer-cmp.nvim',
+    -- optionally, override the default options:
+    config = function()
+      require('tailwindcss-colorizer-cmp').setup {
+        color_square_width = 2,
+      }
+    end,
+  },
+  {
+    'romgrk/barbar.nvim',
+    dependencies = {
+      'lewis6991/gitsigns.nvim', -- OPTIONAL: for git status
+      'nvim-tree/nvim-web-devicons', -- OPTIONAL: for file icons
+    },
+    event = 'VeryLazy',
+    init = function()
+      vim.g.barbar_auto_setup = false
+    end,
+    opts = {
+      sidebar_filetypes = {
+        -- Use the default values: {event = 'BufWinLeave', text = '', align = 'left'}
+        NvimTree = true,
+        -- Or, specify the text used for the offset:
+        undotree = {
+          text = 'undotree',
+          align = 'center', -- *optionally* specify an alignment (either 'left', 'center', or 'right')
+        },
+        -- Or, specify the event which the sidebar executes when leaving:
+        ['neo-tree'] = { event = 'BufWipeout' },
+        -- Or, specify all three
+        Outline = { event = 'BufWinLeave', text = 'symbols-outline', align = 'right' },
+      },
+    },
+    keys = {
+      { '<A-,>', '<Cmd>BufferPrevious<CR>', desc = 'Go to previous buffer', noremap = true, silent = false },
+      { '<A-.>', '<Cmd>BufferNext<CR>', desc = 'Go to next buffer', noremap = true, silent = false },
+      { '<A-<>', '<Cmd>BufferMovePrevious<CR>', desc = 'Move buffer to previous position', noremap = true, silent = false },
+      { '<A->>', '<Cmd>BufferMoveNext<CR>', desc = 'Move buffer to next position', noremap = true, silent = false },
+      { '<A-1>', '<Cmd>BufferGoto 1<CR>', desc = 'Go to buffer 1', noremap = true, silent = false },
+      { '<A-2>', '<Cmd>BufferGoto 2<CR>', desc = 'Go to buffer 2', noremap = true, silent = false },
+      { '<A-3>', '<Cmd>BufferGoto 3<CR>', desc = 'Go to buffer 3', noremap = true, silent = false },
+      { '<A-4>', '<Cmd>BufferGoto 4<CR>', desc = 'Go to buffer 4', noremap = true, silent = false },
+      { '<A-5>', '<Cmd>BufferGoto 5<CR>', desc = 'Go to buffer 5', noremap = true, silent = false },
+      { '<A-6>', '<Cmd>BufferGoto 6<CR>', desc = 'Go to buffer 6', noremap = true, silent = false },
+      { '<A-7>', '<Cmd>BufferGoto 7<CR>', desc = 'Go to buffer 7', noremap = true, silent = false },
+      { '<A-8>', '<Cmd>BufferGoto 8<CR>', desc = 'Go to buffer 8', noremap = true, silent = false },
+      { '<A-9>', '<Cmd>BufferGoto 9<CR>', desc = 'Go to buffer 9', noremap = true, silent = false },
+      { '<A-0>', '<Cmd>BufferLast<CR>', desc = 'Go to last buffer', noremap = true, silent = false },
+      { '<A-c>', '<Cmd>BufferClose<CR>', desc = 'Close buffer', noremap = true, silent = false },
+    },
+    version = '^1.0.0', -- optional: only update when a new 1.x version is released
+  },
+  {
+    'CRAG666/code_runner.nvim',
+    opts = {
+      filetype = {
+        php = 'php',
+        python = 'python3 -u',
+      },
+    },
+    config = true,
+    keys = {
+      { '<leader>rr', ':RunCode<CR>', mode = 'n', noremap = true, silent = false, desc = 'Run Code' },
+      { '<leader>rf', ':RunFile<CR>', mode = 'n', noremap = true, silent = false, desc = 'Run File' },
+      { '<leader>rft', ':RunFile tab<CR>', mode = 'n', noremap = true, silent = false, desc = 'Run File in Tab' },
+      { '<leader>rp', ':RunProject<CR>', mode = 'n', noremap = true, silent = false, desc = 'Run Project' },
+      { '<leader>rc', ':RunClose<CR>', mode = 'n', noremap = true, silent = false, desc = 'Run Close' },
+      { '<leader>crf', ':CRFiletype<CR>', mode = 'n', noremap = true, silent = false, desc = 'Change Filetype Runner' },
+      { '<leader>crp', ':CRProjects<CR>', mode = 'n', noremap = true, silent = false, desc = 'Change Project Runner' },
+    },
+  },
+  -- {
+  --   'adalessa/laravel.nvim',
+  --   dependencies = {
+  --     'tpope/vim-dotenv',
+  --     'nvim-telescope/telescope.nvim',
+  --     'MunifTanjim/nui.nvim',
+  --     'kevinhwang91/promise-async',
+  --   },
+  --   cmd = { 'Laravel' },
+  --   keys = {
+  --     { '<leader>la', ':Laravel artisan<cr>' },
+  --     { '<leader>lr', ':Laravel routes<cr>' },
+  --     { '<leader>lm', ':Laravel related<cr>' },
+  --   },
+  --   event = { 'VeryLazy' },
+  --   opts = {},
+  --   config = true,
+  -- },
+  {
+    'folke/ts-comments.nvim',
+    opts = {},
+    event = 'VeryLazy',
+    enabled = vim.fn.has 'nvim-0.10.0' == 1,
+  },
+  {
+    'nvim-pack/nvim-spectre',
+    event = 'VeryLazy',
+    keys = {
+      {
+        '<leader>S',
+        '<cmd>lua require("spectre").toggle()<CR>',
+        desc = 'Toggle Spectre',
+      },
+      {
+        '<leader>sw',
+        '<cmd>lua require("spectre").open_visual({select_word=true})<CR>',
+        desc = 'Search current word',
+        mode = 'n',
+      },
+      {
+        '<leader>sw',
+        '<esc><cmd>lua require("spectre").open_visual()<CR>',
+        desc = 'Search current word',
+        mode = 'v',
+      },
+      {
+        '<leader>sp',
+        '<cmd>lua require("spectre").open_file_search({select_word=true})<CR>',
+        desc = 'Search on current file',
+      },
+    },
+  },
+  {
+    'akinsho/toggleterm.nvim',
+    version = '*',
+    opts = {
+      open_mapping = [[<c-\>]], -- Default toggle keybinding
+      direction = 'horizontal', -- Default direction (can be overridden with keymaps)
+      size = 20, -- Default size of terminal
+    },
+  },
+  -- {
+  --   'davidmh/mdx.nvim',
+  --   config = true,
+  --   dependencies = { 'nvim-treesitter/nvim-treesitter' },
+  -- },
+  {
+    'ray-x/lsp_signature.nvim',
+    event = 'VeryLazy',
+    opts = {},
+    config = function(_, opts)
+      require('lsp_signature').setup(opts)
+    end,
+  },
+  -- {
+  --   'adelarsq/image_preview.nvim',
+  --   event = 'VeryLazy',
+  --   config = function()
+  --     require('image_preview').setup()
+  --   end,
+  -- },
+  -- {
+  --   'tpope/vim-rails',
+  --   lazy = false, -- Load it on startup
+  -- },
   { -- Adds git related signs to the gutter, as well as utilities for managing changes
     'lewis6991/gitsigns.nvim',
     opts = {
